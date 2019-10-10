@@ -3,20 +3,20 @@ import isEmpty from 'is-empty';
 
 const validateLogin = (data) => {
   const errors = {};
+  const data1 = data;
 
   // Converting empty fields to strings for validator methods
   // or populate data when not empty
-  /* eslint-disable no-param-reassign */
-  data.username = !isEmpty(data.username) ? data.username : '';
-  data.password = !isEmpty(data.password) ? data.password : '';
+  data1.username = !isEmpty(data.username) ? data.username : '';
+  data1.password = !isEmpty(data.password) ? data.password : '';
 
   // Check the username
-  if (Validator.isEmpty(data.username)) {
+  if (Validator.isEmpty(data1.username)) {
     errors.username = 'Please enter a username';
   }
 
   // Check the password
-  if (Validator.isEmpty(data.password)) {
+  if (Validator.isEmpty(data1.password)) {
     errors.password = 'Please enter a password';
   }
 
