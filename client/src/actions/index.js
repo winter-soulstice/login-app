@@ -1,5 +1,5 @@
-export const login = () => {
-    return {
-        type: 'SIGN_IN'
-    };
-};
+const login = () => ({
+  type: 'SIGN_IN',
+});
+
+export { login as default };

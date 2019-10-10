@@ -1,109 +1,120 @@
 import React, { useState } from 'react';
-import api from '../api/index';
 import { useDispatch } from 'react-redux';
-import { login } from '../actions';
+import { useAlert } from 'react-alert';
+import PropTypes from 'prop-types';
 
 import styled from 'styled-components';
 
+import { loginUser } from '../api/index';
+import login from '../actions';
+
 const Title = styled.h1.attrs({
-    className: 'h1',
-})``
+  className: 'h1',
+})``;
 
 const Wrapper = styled.div.attrs({
-    className: 'form-group',
+  className: 'form-group',
 })`
-    margin: 0 30px
-`
+  margin: 0 30px
+`;
 
 const Label = styled.label`
-    margin: 5px;
-`
+  margin: 5px;
+`;
 
 const InputText = styled.input.attrs({
-    className: 'form-control',
+  className: 'form-control',
 })`
-    margin: 5px
-`
+  margin: 5px
+`;
 
 const Button = styled.button.attrs({
-    className: `btn btn-primary`
+  className: 'btn btn-primary',
 })`
-    margin: 15px 15px 15px 15px;
-`
+  margin: 15px 15px 15px 15px;
+`;
 
 const CancelButton = styled.button.attrs({
-    className: `btn btn-danger`
+  className: 'btn btn-danger',
 })`
-    margin: 15px 15px 15px 15px;
-`
+  margin: 15px 15px 15px 15px;
+`;
 
 // Functional component used to register a user
-export function UserLogin(props) {
-    // Hook declaration in order to store state
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+const UserLogin = (props) => {
+  // Hook declaration in order to store state
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
-    const dispatch = useDispatch();
-    const history = props.history;
+  const dispatch = useDispatch();
+  const { history } = props;
+  const alert = useAlert();
 
-    function getErrors(er){
-        const message = er.response.data.error;
-        const values = Object.values(message);
-        if (values.length > 2)
-        {
-            return window.alert(message);
-        }
-        var errors = "";
-        for (var i=0; i<values.length; i++){
-            errors += values[i] + '. \n';
-        }
-        window.alert(errors);
+  function showMessage(message) {
+    return alert.show(message);
+  }
+
+  function getErrors(er) {
+    const message = er.response.data.error;
+    const values = Object.values(message);
+    if (values.length > 2) {
+      showMessage(message);
     }
-
-    // Asynchronous function to save each user
-    async function loginUser() {
-        const payload = {username, password};
-
-        let response;
-        let complete = false;
-        await api.loginUser(payload).then((res) => {
-            response = res;
-            const success = 200;
-            if (response.status === success){
-                complete = true;
-            }
-        }).catch(err => getErrors(err));
-
-        if (complete){
-            dispatch(login());
-            history.push('/');
-        }
+    let errors = '';
+    for (let i = 0; i < values.length; i += 1) {
+      errors += `${values[i]}. \n`;
     }
+    alert.show(errors);
+  }
 
-    async function goHome() {
-        history.push('/');
+  // Asynchronous function to save each user
+  async function userLogin() {
+    const payload = { username, password };
+    let response;
+    let complete = false;
+    await loginUser(payload).then((res) => {
+      response = res;
+      const success = 200;
+      if (response.status === success) {
+        complete = true;
+      }
+    }).catch((err) => getErrors(err));
+
+    if (complete) {
+      dispatch(login());
+      history.push('/');
     }
+  }
 
-    return(
-        <Wrapper>
-            <Title>Login</Title>
+  async function goHome() {
+    history.push('/');
+  }
 
-            <Label>Username: </Label>
-            <InputText 
-                type="text"
-                value={username}
-                onChange = {e => {setUsername(e.target.value)}} 
-            />
+  return (
+    <Wrapper>
+      <Title>Login</Title>
 
-            <Label>Password: </Label>
-            <InputText
-                type="password"
-                value={password}
-                onChange = {e => {setPassword(e.target.value)}} 
-            />
-            
-            <Button onClick={loginUser}>Login</Button>
-            <CancelButton onClick={goHome}>Cancel</CancelButton>
-        </Wrapper>
-    )
-}
+      <Label>Username: </Label>
+      <InputText
+        type="text"
+        value={username}
+        onChange={(e) => { setUsername(e.target.value); }}
+      />
+
+      <Label>Password: </Label>
+      <InputText
+        type="password"
+        value={password}
+        onChange={(e) => { setPassword(e.target.value); }}
+      />
+      <Button onClick={userLogin}>Login</Button>
+      <CancelButton onClick={goHome}>Cancel</CancelButton>
+    </Wrapper>
+  );
+};
+
+UserLogin.propTypes = {
+  history: PropTypes.instanceOf(Object).isRequired,
+};
+
+export { UserLogin as default };

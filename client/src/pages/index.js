@@ -1,5 +1,5 @@
-import { UserReg } from './UserReg';
-import { UserLogin } from './UserLogin';
-import { UserLogout } from './UserLogout';
+import UserRegister from './UserReg';
+import UserLogin from './UserLogin';
+import UserLogout from './UserLogout';
 
-export { UserReg, UserLogin, UserLogout };
+export { UserRegister, UserLogin, UserLogout };

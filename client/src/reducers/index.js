@@ -1,8 +1,9 @@
-import loggedReducer from './loggedReducer';
 import { combineReducers } from 'redux';
 
-const allReducers = combineReducers({
-    isLogged: loggedReducer
-})
+import loggedReducer from './loggedReducer';
 
-export default allReducers;
+const allReducers = combineReducers({
+  isLogged: loggedReducer,
+});
+
+export { allReducers as default };
