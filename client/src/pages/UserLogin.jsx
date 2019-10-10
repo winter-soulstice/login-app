@@ -55,16 +55,20 @@ const UserLogin = (props) => {
   }
 
   function getErrors(er) {
-    const message = er.response.data.error;
-    const values = Object.values(message);
-    if (values.length > 2) {
-      showMessage(message);
+    if (er) {
+      const message = er.response.data.error;
+      const values = Object.values(message);
+      if (values.length > 2) {
+        showMessage(message);
+      } else {
+        let errors = '';
+        for (let i = 0; i < values.length; i += 1) {
+          errors += `${values[i]}. \n`;
+        }
+        return alert.show(errors);
+      }
     }
-    let errors = '';
-    for (let i = 0; i < values.length; i += 1) {
-      errors += `${values[i]}. \n`;
-    }
-    alert.show(errors);
+    return er;
   }
 
   // Asynchronous function to save each user

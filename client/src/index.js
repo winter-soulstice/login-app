@@ -9,9 +9,7 @@ import AlertTemplate from 'react-alert-template-oldschool-dark';
 import allReducers from './reducers';
 import App from './app/app';
 
-const store = createStore(allReducers,
-  // eslint-disable-next-line no-underscore-dangle
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+const store = createStore(allReducers);
 
 // optional cofiguration
 const options = {
