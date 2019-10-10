@@ -12,6 +12,7 @@
     "bcrypt": "^3.0.6",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
+    "crypto": "^1.0.1",
     "crypto-js": "^3.1.9-1",
     "express": "^4.17.1",
     "is-empty": "^1.2.0",
@@ -20,6 +21,7 @@
     "nodemon": "^1.19.3",
     "react-native-randombytes": "^3.5.3",
     "regenerator-runtime": "^0.13.3",
+    "typescript": "^3.6.3",
     "validator": "^11.1.0"
   },
   "devDependencies": {

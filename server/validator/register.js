@@ -1,7 +1,7 @@
 import Validator from 'validator';
 import isEmpty from 'is-empty';
 
-module.exports = function validateRegister(data) {
+const validateRegister = (data) => {
   const errors = {};
 
   // Converting empty fields to strings for validator functions to work
@@ -46,3 +46,5 @@ module.exports = function validateRegister(data) {
     isValid: isEmpty(errors),
   };
 };
+
+export { validateRegister as default };
