@@ -2,13 +2,19 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
-import Btn from '../components/Btn';
+import { Btn } from '../tags';
 import { hide, login } from '../actions';
-
-// No need to change state back to false because logout reloads the homepage
 
 const gray = 'btn btn-secondary btn-lg';
 const logout = 'Logout';
+
+const h4Style = {
+  color: 'blue',
+};
+
+const h5Style = {
+  color: 'maroon',
+};
 
 const btnStyle = {
   margin: '.6rem',
@@ -18,7 +24,7 @@ const btnStyle = {
 const Wrapper = styled.div.attrs({
   className: 'form-group',
 })`
-  margin: 0 30px;
+  margin: 2rem 2rem;
   font-family: Times;
 `;
 
@@ -42,7 +48,7 @@ const UserLogout = () => {
 
   const dispatch = useDispatch();
   const logged = () => dispatch(login());
-  const formed = () => dispatch(hide());
+  const hidden = () => dispatch(hide());
 
   /* Function that will logout the user and clear the cookie set
    * Redirects window location to home page.
@@ -50,22 +56,27 @@ const UserLogout = () => {
   const logOut = () => {
     document.cookie = 'token=; max-age=-1; path=/;';
     document.cookie = 'username=; max-age=-1; path=/;';
-    formed();
+    hidden();
     logged();
     window.location.assign('/');
   };
 
+  // Renders the logout button which calls the logout function
+  const LogoutButton = () => (
+    <Btn
+      action={logOut}
+      color={gray}
+      name={logout}
+      newStyle={btnStyle}
+    />
+  );
+
   // Render these elements and return
   return (
     <Wrapper>
-      <h4>{loginMessage}</h4>
-      <h5>{userMessage}</h5>
-      <Btn
-        action={logOut}
-        color={gray}
-        name={logout}
-        newStyle={btnStyle}
-      />
+      <h4 style={h4Style}>{loginMessage}</h4>
+      <h5 style={h5Style}>{userMessage}</h5>
+      <LogoutButton />
     </Wrapper>
   );
 };

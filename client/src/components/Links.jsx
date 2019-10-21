@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import Btn from './Btn';
+import { Btn } from '../tags';
 import { hide } from '../actions';
 
 const List = styled.div.attrs({
@@ -31,6 +31,22 @@ const btnStyle = {
   width: '11rem',
 };
 
+const LoginButton = () => (
+  <Btn
+    color={blue}
+    name={login}
+    newStyle={btnStyle}
+  />
+);
+
+const RegisterButton = () => (
+  <Btn
+    color={yellow}
+    name={register}
+    newStyle={btnStyle}
+  />
+);
+
 const Links = () => {
   const dispatch = useDispatch();
   const click = useSelector((state) => state.isClicked);
@@ -43,20 +59,12 @@ const Links = () => {
     <List>
       <Item>
         <Link to="/login" className="nav-login" onClick={clicked}>
-          <Btn
-            color={blue}
-            name={login}
-            newStyle={btnStyle}
-          />
+          <LoginButton />
         </Link>
       </Item>
       <Item>
         <Link to="/register" className="nav-register" onClick={clicked}>
-          <Btn
-            color={yellow}
-            name={register}
-            newStyle={btnStyle}
-          />
+          <RegisterButton />
         </Link>
       </Item>
     </List>

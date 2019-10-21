@@ -2,31 +2,61 @@ import React, { useState } from 'react';
 import { useAlert } from 'react-alert';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
+
 import styled from 'styled-components';
 
 import { registerUser } from '../api/index';
-import Btn from '../components/Btn';
-import Input from '../components/Input';
-
+import {
+  Btn,
+  Input,
+  Label,
+  Title,
+} from '../tags';
 import { hide } from '../actions';
 
 const Wrapper = styled.div.attrs({
   className: 'form-group',
 })`
   font-family: Times;
-  margin: 0 30px;
+  margin: 2rem 2rem;
+  color: maroon;
 `;
 
-const Title = styled.h1.attrs({
-  className: 'h1',
-})``;
+// Parameters for styling the h1 tag
+const titleStyle = {
+  textAlign: 'center',
+};
 
-const Label = styled.label`
-  font-weight: bold;
-  margin: 5px;
-`;
+// Parameters for styling the label tag
+const labelStyle = {
+  fontWeight: 'bold',
+  margin: '.6rem',
+};
 
-// Parameters for the form class
+// Parameters for styling the form tag
+const formStyle = {
+  fontFamily: 'Arial',
+  margin: '5px',
+  width: '98%',
+};
+
+// Parameters for styling the buttons
+const btnStyle = {
+  margin: '.6rem',
+  width: 'auto',
+  float: 'right',
+};
+
+// Parameter for title tag name
+const regTitle = 'Register';
+
+// Parameters for label tag names
+const userLabel = 'Username: ';
+const emailLabel = 'Email: ';
+const passLabel = 'Password: ';
+const pass2Label = 'Password Confirmation: ';
+
+// Parameters for the form div
 const form = 'form-control';
 
 // Parameters for the text form
@@ -45,13 +75,6 @@ const passPlace = 'Please enter your password';
 const pass2 = 'password';
 const pass2Place = 'Please confirm your password';
 
-// Parameters for styling the form
-const formStyle = {
-  fontFamily: 'Arial',
-  margin: '5px',
-  width: '90%',
-};
-
 // Parameters for the confirm button
 const confirm = 'Confirm';
 const green = 'btn btn-success';
@@ -59,12 +82,6 @@ const green = 'btn btn-success';
 // Parameters for the cancel button
 const cancel = 'Cancel';
 const red = 'btn btn-danger';
-
-// Parameters for styling the buttons
-const btnStyle = {
-  margin: '.6rem',
-  width: 'auto',
-};
 
 // Functional component used to register a user
 const UserReg = (props) => {
@@ -120,11 +137,21 @@ const UserReg = (props) => {
     history.push('/');
   }
 
+  const RegTitle = () => (
+    <Title
+      name={regTitle}
+      newStyle={titleStyle}
+    />
+  );
+
   return (
     <Wrapper>
-      <Title>Register User</Title>
 
-      <Label>Username: </Label>
+      <RegTitle />
+      <Label
+        name={userLabel}
+        newStyle={labelStyle}
+      />
       <Input
         action={(e) => { setUsername(e.target.value); }}
         classType={form}
@@ -134,7 +161,10 @@ const UserReg = (props) => {
         newStyle={formStyle}
       />
 
-      <Label>Email: </Label>
+      <Label
+        name={emailLabel}
+        newStyle={labelStyle}
+      />
       <Input
         action={(e) => { setEmail(e.target.value); }}
         classType={form}
@@ -144,7 +174,10 @@ const UserReg = (props) => {
         newStyle={formStyle}
       />
 
-      <Label>Password: </Label>
+      <Label
+        name={passLabel}
+        newStyle={labelStyle}
+      />
       <Input
         action={(e) => { setPassword(e.target.value); }}
         classType={form}
@@ -154,7 +187,10 @@ const UserReg = (props) => {
         newStyle={formStyle}
       />
 
-      <Label>Confirm Password: </Label>
+      <Label
+        name={pass2Label}
+        newStyle={labelStyle}
+      />
       <Input
         action={(e) => { setPassword2(e.target.value); }}
         classType={form}

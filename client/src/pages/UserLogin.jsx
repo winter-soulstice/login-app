@@ -6,27 +6,60 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import { loginUser } from '../api/index';
-
-import Btn from '../components/Btn';
-import Input from '../components/Input';
-
+import {
+  Btn,
+  Input,
+  Label,
+  Title,
+} from '../tags';
 import { hide, login } from '../actions';
 
 const Wrapper = styled.div.attrs({
   className: 'form-group',
 })`
   font-family: Times;
-  margin: 0 30px;
+  margin: 2rem 2rem;
+  color: maroon;
 `;
 
-const Title = styled.h1.attrs({
-  className: 'h1',
-})``;
+// Parameters for styling the label class
+const labelStyle = {
+  fontWeight: 'bold',
+  margin: '.6rem',
+};
 
-const Label = styled.label`
-  font-weight: bold;
-  margin: 5px;
-`;
+// Parameters for styling the form class
+const formStyle = {
+  fontFamily: 'Arial',
+  margin: '5px',
+  width: '98%',
+};
+
+// Parameters for styling the button
+const btnStyle = {
+  margin: '.6rem',
+  width: 'auto',
+  float: 'right',
+};
+
+// Parameters for title tag name
+const logTitle = 'Login';
+
+// Parameters for styling the title class
+const titleStyle = {
+  textAlign: 'center',
+};
+
+const LoginTitle = () => (
+  <Title
+    name={logTitle}
+    newStyle={titleStyle}
+  />
+);
+
+// Parameters for the user tag names
+const userLabel = 'Username: ';
+const passLabel = 'Password: ';
 
 // Parameters for the form class
 const form = 'form-control';
@@ -39,13 +72,6 @@ const userPlace = 'Please enter your username';
 const pass = 'password';
 const passPlace = 'Please enter your password';
 
-// Parameters for styling the form class
-const formStyle = {
-  fontFamily: 'Arial',
-  margin: '5px',
-  width: '90%',
-};
-
 // Parameters for the confirm button
 const confirm = 'Confirm';
 const green = 'btn btn-success';
@@ -54,12 +80,6 @@ const green = 'btn btn-success';
 const cancel = 'Cancel';
 const red = 'btn btn-danger';
 
-// Parameters for styling the button
-const btnStyle = {
-  margin: '.6rem',
-  width: 'auto',
-};
-
 // Method to set cookie.
 const setCookie = (name, value) => {
   document.cookie = `${name}=${value}`;
@@ -67,16 +87,19 @@ const setCookie = (name, value) => {
 
 // Functional component used to register a user
 const UserLogin = (props) => {
+  // Hook declaration for using dispatch
+  const dispatch = useDispatch();
+  const logged = () => dispatch(login());
+  const clicked = () => dispatch(hide());
+
   // Hook declaration in order to get username/passwords
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const dispatch = useDispatch();
+  // Hook declaration to use custom alerts
   const alert = useAlert();
 
-  const logged = () => dispatch(login());
-  const clicked = () => dispatch(hide());
-
+  // History proptype used to navigate the webpage
   const { history } = props;
 
   const showMessage = (message) => {
@@ -131,9 +154,12 @@ const UserLogin = (props) => {
 
   return (
     <Wrapper>
-      <Title>Login</Title>
 
-      <Label>Username: </Label>
+      <LoginTitle />
+      <Label
+        name={userLabel}
+        newStyle={labelStyle}
+      />
       <Input
         action={(e) => { setUsername(e.target.value); }}
         classType={form}
@@ -143,7 +169,10 @@ const UserLogin = (props) => {
         newStyle={formStyle}
       />
 
-      <Label>Password: </Label>
+      <Label
+        name={passLabel}
+        newStyle={labelStyle}
+      />
       <Input
         action={(e) => { setPassword(e.target.value); }}
         classType={form}
