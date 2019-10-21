@@ -1,6 +1,10 @@
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+
+import Btn from './Btn';
+import { hide } from '../actions';
 
 const List = styled.div.attrs({
   className: 'list',
@@ -10,41 +14,53 @@ const Item = styled.div.attrs({
   className: 'item',
 })``;
 
-const Login = styled.button.attrs({
-  className: 'btn btn-primary',
-})`
-    display: inline-block;
-    border-radius: 3px;
-    padding: 0.5rem 0;
-    margin: 0.5rem 1rem;
-    width: 11rem;
-    background: transparent;
-`;
+// Parameters for the login button
+const login = 'Login';
+const blue = 'btn btn-primary btn-lg';
 
-const Register = styled.button.attrs({
-  className: 'btn btn-danger',
-})`
-    display: inline-block;
-    border-radius: 3px;
-    padding: 0.5rem 0;
-    margin: 0.5rem 1rem;
-    width: 11rem;
-    background: transparent;
-`;
+// Parameters for the register button
+const register = 'Register';
+const yellow = 'btn btn-warning btn-lg';
 
-const Links = () => (
-  <List>
-    <Item>
-      <Link to="/register" className="nav-register">
-        <Register>Register</Register>
-      </Link>
-    </Item>
-    <Item>
-      <Link to="/login" className="nav-login">
-        <Login>Login</Login>
-      </Link>
-    </Item>
-  </List>
-);
+// Parameters for styling the button
+const btnStyle = {
+  display: 'inline-block',
+  border_radius: '3px',
+  padding: '0.5rem 0',
+  margin: '0.5rem 1rem',
+  width: '11rem',
+};
+
+const Links = () => {
+  const dispatch = useDispatch();
+  const click = useSelector((state) => state.isClicked);
+  const clicked = () => dispatch(hide());
+
+  if (click) {
+    return '';
+  }
+  return (
+    <List>
+      <Item>
+        <Link to="/login" className="nav-login" onClick={clicked}>
+          <Btn
+            color={blue}
+            name={login}
+            newStyle={btnStyle}
+          />
+        </Link>
+      </Item>
+      <Item>
+        <Link to="/register" className="nav-register" onClick={clicked}>
+          <Btn
+            color={yellow}
+            name={register}
+            newStyle={btnStyle}
+          />
+        </Link>
+      </Item>
+    </List>
+  );
+};
 
 export { Links as default };

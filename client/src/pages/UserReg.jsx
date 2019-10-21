@@ -1,41 +1,70 @@
 import React, { useState } from 'react';
 import { useAlert } from 'react-alert';
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import { registerUser } from '../api/index';
+import Btn from '../components/Btn';
+import Input from '../components/Input';
+
+import { hide } from '../actions';
+
+const Wrapper = styled.div.attrs({
+  className: 'form-group',
+})`
+  font-family: Times;
+  margin: 0 30px;
+`;
 
 const Title = styled.h1.attrs({
   className: 'h1',
 })``;
 
-const Wrapper = styled.div.attrs({
-  className: 'form-group',
-})`
-  margin: 0 30px
-`;
-
 const Label = styled.label`
+  font-weight: bold;
   margin: 5px;
 `;
 
-const InputText = styled.input.attrs({
-  className: 'form-control',
-})`
-  margin: 5px
-`;
+// Parameters for the form class
+const form = 'form-control';
 
-const Button = styled.button.attrs({
-  className: 'btn btn-primary',
-})`
-  margin: 15px 15px 15px 15px;
-`;
+// Parameters for the text form
+const user = 'text';
+const userPlace = 'Please enter your username';
 
-const CancelButton = styled.button.attrs({
-  className: 'btn btn-danger',
-})`
-  margin: 15px 15px 15px 15px;
-`;
+// Parameters for the mail form
+const mail = 'text';
+const mailPlace = 'Please enter your email';
+
+// Parameters for the password form
+const pass = 'password';
+const passPlace = 'Please enter your password';
+
+// Paramters for the confirm form
+const pass2 = 'password';
+const pass2Place = 'Please confirm your password';
+
+// Parameters for styling the form
+const formStyle = {
+  fontFamily: 'Arial',
+  margin: '5px',
+  width: '90%',
+};
+
+// Parameters for the confirm button
+const confirm = 'Confirm';
+const green = 'btn btn-success';
+
+// Parameters for the cancel button
+const cancel = 'Cancel';
+const red = 'btn btn-danger';
+
+// Parameters for styling the buttons
+const btnStyle = {
+  margin: '.6rem',
+  width: 'auto',
+};
 
 // Functional component used to register a user
 const UserReg = (props) => {
@@ -47,16 +76,18 @@ const UserReg = (props) => {
 
   const { history } = props;
   const alert = useAlert();
+  const dispatch = useDispatch();
+  const clicked = () => dispatch(hide());
 
   function showMessage(message) {
     return alert.show(message);
   }
 
-  function getErrors(er) {
+  const getErrors = (er) => {
     if (er) {
       const message = (er.response.data.error);
       const values = Object.values(message);
-      if (values.length > 4) {
+      if (values.length > 3) {
         showMessage(message);
       } else {
         let errors = '';
@@ -66,8 +97,8 @@ const UserReg = (props) => {
         return alert.show(errors);
       }
     }
-    return (er);
-  }
+    return er;
+  };
 
   // Asynchronous function to save each user
   async function saveUser() {
@@ -76,7 +107,7 @@ const UserReg = (props) => {
     };
 
     await registerUser(payload).then((res) => {
-      alert(res.data.message);
+      showMessage(res.data.message);
       setUsername('');
       setEmail('');
       setPassword('');
@@ -85,6 +116,7 @@ const UserReg = (props) => {
   }
 
   async function goHome() {
+    clicked();
     history.push('/');
   }
 
@@ -93,35 +125,57 @@ const UserReg = (props) => {
       <Title>Register User</Title>
 
       <Label>Username: </Label>
-      <InputText
-        type="text"
-        value={username}
-        onChange={(e) => { setUsername(e.target.value); }}
+      <Input
+        action={(e) => { setUsername(e.target.value); }}
+        classType={form}
+        input={username}
+        inputType={user}
+        holder={userPlace}
+        newStyle={formStyle}
       />
 
       <Label>Email: </Label>
-      <InputText
-        type="email"
-        value={email}
-        onChange={(e) => { setEmail(e.target.value); }}
+      <Input
+        action={(e) => { setEmail(e.target.value); }}
+        classType={form}
+        input={email}
+        inputType={mail}
+        holder={mailPlace}
+        newStyle={formStyle}
       />
 
       <Label>Password: </Label>
-      <InputText
-        type="password"
-        value={password}
-        onChange={(e) => { setPassword(e.target.value); }}
+      <Input
+        action={(e) => { setPassword(e.target.value); }}
+        classType={form}
+        input={password}
+        inputType={pass}
+        holder={passPlace}
+        newStyle={formStyle}
       />
 
       <Label>Confirm Password: </Label>
-      <InputText
-        type="password"
-        value={password2}
-        onChange={(e) => { setPassword2(e.target.value); }}
+      <Input
+        action={(e) => { setPassword2(e.target.value); }}
+        classType={form}
+        input={password2}
+        inputType={pass2}
+        holder={pass2Place}
+        newStyle={formStyle}
       />
 
-      <Button onClick={saveUser}>Sign Up</Button>
-      <CancelButton onClick={goHome}>Cancel</CancelButton>
+      <Btn
+        action={saveUser}
+        color={green}
+        name={confirm}
+        newStyle={btnStyle}
+      />
+      <Btn
+        action={goHome}
+        color={red}
+        name={cancel}
+        newStyle={btnStyle}
+      />
     </Wrapper>
   );
 };

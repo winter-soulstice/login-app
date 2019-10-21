@@ -1,5 +1,7 @@
-const login = () => ({
-  type: 'SIGN_IN',
-});
+import hide from './hide';
+import login from './login';
 
-export { login as default };
+export {
+  hide,
+  login,
+};
