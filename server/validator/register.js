@@ -1,12 +1,15 @@
+// Import validator modules for string verification
 import Validator from 'validator';
+// Import isEmpty module for emptiness verification
 import isEmpty from 'is-empty';
 
+// Function to verify data being inputed to server
 const validateRegister = (data) => {
+  // Error and data variables
   const errors = {};
-
   const data1 = data;
-  // Converting empty fields to strings for validator functions to work
-  // or populate with data if not empty.
+
+  // Convert empty fields of data to strings or populate data fields
   data1.username = !isEmpty(data.username) ? data.username : '';
   data1.email = !isEmpty(data.email) ? data.email : '';
   data1.password = !isEmpty(data.password) ? data.password : '';
@@ -27,17 +30,14 @@ const validateRegister = (data) => {
   // Check the password
   if (Validator.isEmpty(data1.password)) {
     errors.password = 'Please enter a password';
-  }
-
-  if (Validator.isEmpty(data1.password2)) {
+  } else if (Validator.isEmpty(data1.password2)) {
     errors.password2 = 'Please confirm the password';
   }
 
+  // Ensure valid password
   if (!Validator.isLength(data1.password, { min: 6, max: 30 })) {
     errors.password = 'Please enter a password between 6-30 characters';
-  }
-
-  if (!Validator.equals(data1.password, data1.password2)) {
+  } else if (!Validator.equals(data1.password, data1.password2)) {
     errors.password2 = 'Please enter a matching password';
   }
 
@@ -47,4 +47,5 @@ const validateRegister = (data) => {
   };
 };
 
+// Export the validate function to controller
 export { validateRegister as default };
