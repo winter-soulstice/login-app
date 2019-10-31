@@ -1,30 +1,30 @@
 import React, { useState } from 'react';
 import { useAlert } from 'react-alert';
-import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import styled from 'styled-components';
 
-import { registerUser } from '../api/index';
+import { registerUser } from '../api';
+import { validRegister } from '../validator';
 import {
   Btn,
   Input,
   Label,
   Title,
 } from '../tags';
-import { hide } from '../actions';
 
+// Styled div tag that is used as a wrapper
 const Wrapper = styled.div.attrs({
   className: 'form-group',
 })`
-  font-family: Times;
+  font-family: Arial;
   margin: 2rem 2rem;
-  color: maroon;
+  color: #343a40;
 `;
 
 // Parameters for styling the h1 tag
 const titleStyle = {
-  textAlign: 'center',
+  textAlign: 'Center',
 };
 
 // Parameters for styling the label tag
@@ -93,14 +93,13 @@ const UserReg = (props) => {
 
   const { history } = props;
   const alert = useAlert();
-  const dispatch = useDispatch();
-  const clicked = () => dispatch(hide());
 
   function showMessage(message) {
     return alert.show(message);
   }
 
-  const getErrors = (er) => {
+  // Function to display errors as alerts from server
+  const getErrorServer = (er) => {
     if (er) {
       const message = (er.response.data.error);
       const values = Object.values(message);
@@ -117,23 +116,51 @@ const UserReg = (props) => {
     return er;
   };
 
+  // Function to display errors as alerts from client
+  const getErrorClient = (er) => {
+    if (er) {
+      const message = Object.values(er);
+      if (message.length > 3) {
+        showMessage(message);
+      } else {
+        let errors = '';
+        for (let i = 0; i < message.length; i += 1) {
+          errors += `${message[i]}. \n`;
+        }
+        return showMessage(errors);
+      }
+    }
+    return er;
+  };
+
   // Asynchronous function to save each user
   async function saveUser() {
+    // Combine input fields to create payload
     const payload = {
       username, email, password, password2,
     };
 
-    await registerUser(payload).then((res) => {
-      showMessage(res.data.message);
-      setUsername('');
-      setEmail('');
-      setPassword('');
-      setPassword2('');
-    }).catch((err) => getErrors(err));
+    // Validate the payload on client side
+    const { errors, isValid } = validRegister(payload);
+    // Ensure validity before sending the request
+    if (isValid) {
+      await registerUser(payload).then((res) => {
+        showMessage(res.data.message);
+        setUsername('');
+        setEmail('');
+        setPassword('');
+        setPassword2('');
+      }).catch((err) => getErrorServer(err));
+    }
+    if (!isValid) {
+      // Display errors in other case
+      return (getErrorClient(errors));
+    }
+    return payload;
   }
 
+  // Function that moves the user to the home page.
   async function goHome() {
-    clicked();
     history.push('/');
   }
 

@@ -9,11 +9,11 @@ const gray = 'btn btn-secondary btn-lg';
 const logout = 'Logout';
 
 const h4Style = {
-  color: 'blue',
+  color: 'green',
 };
 
 const h5Style = {
-  color: 'maroon',
+  color: '#343a40',
 };
 
 const btnStyle = {
@@ -25,8 +25,9 @@ const Wrapper = styled.div.attrs({
   className: 'form-group',
 })`
   margin: 2rem 2rem;
-  font-family: Times;
+  font-family: Arial;
 `;
+
 
 /* Function the retrieves the username from cookie */
 const getUserName = () => {

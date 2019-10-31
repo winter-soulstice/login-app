@@ -3,6 +3,7 @@ import axios from 'axios';
 
 // Create a new instance of axios with a custom configuration.
 const api = axios.create({
+  // Connects to server on port 3000 to store and load users
   baseURL: 'http://localhost:3000/api',
 });
 
