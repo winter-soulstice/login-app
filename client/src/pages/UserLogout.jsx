@@ -44,8 +44,8 @@ const getUserName = () => {
 const UserLogout = () => {
   // Save the messages as constants
   const user = getUserName().toUpperCase();
-  const loginMessage = 'Login Successful!';
-  const userMessage = `Hello: ${user}`;
+  const loginMessage = 'Login Successful';
+  const userMessage = `Hello ${user}!`;
 
   const dispatch = useDispatch();
   const logged = () => dispatch(login());

@@ -228,15 +228,15 @@ const UserReg = (props) => {
       />
 
       <Btn
-        action={saveUser}
-        color={green}
-        name={confirm}
-        newStyle={btnStyle}
-      />
-      <Btn
         action={goHome}
         color={red}
         name={cancel}
+        newStyle={btnStyle}
+      />
+      <Btn
+        action={saveUser}
+        color={green}
+        name={confirm}
         newStyle={btnStyle}
       />
     </Wrapper>

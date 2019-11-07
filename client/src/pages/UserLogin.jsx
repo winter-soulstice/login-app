@@ -232,15 +232,15 @@ const UserLogin = (props) => {
       />
 
       <Btn
-        action={userLogin}
-        color={green}
-        name={confirm}
-        newStyle={btnStyle}
-      />
-      <Btn
         action={goHome}
         color={red}
         name={cancel}
+        newStyle={btnStyle}
+      />
+      <Btn
+        action={userLogin}
+        color={green}
+        name={confirm}
         newStyle={btnStyle}
       />
     </Wrapper>
